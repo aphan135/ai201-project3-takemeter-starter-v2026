@@ -46,37 +46,30 @@
 
 ---
 
-## Label Taxonomy
+### Label Taxonomy
 
 ### Label Definitions
 
 * **`analysis`**: Makes an argument or claim backed by at least one explicit, checkable factual citation (such as a box office figure, budget metric, direct quote, release year, or specific scene timecode).
-  * *Example 1:* "Box office tracking shows a 45% drop in opening weekend gross dollars relative to the studio budget."[cite: 14]
-  * *Example 2:* "A detailed breakdown of the editing choices in the hallway sequence, analyzing 5 specific scene cuts with time codes."[cite: 14]
+  * *Example 1:* "Box office tracking shows a 45% drop in opening weekend gross dollars relative to the studio budget."
+  * *Example 2:* "A detailed breakdown of the editing choices in the hallway sequence, analyzing 5 specific scene cuts with time codes."
 
-* **`hot_take`**: Asserts a confident opinion, judgment, or evaluation about a film, actor, or genre without offering supporting evidence, factual citations, or scene breakdowns[cite: 14].
-  * *Example 1:* "Honestly overrated IMO."[cite: 14]
-  * *Example 2:* "Unpopular opinion: the dialogue in Marvel films is fundamentally ruining screenwriting styles."[cite: 14]
+* **`hot_take`**: Asserts a confident opinion, judgment, or evaluation about a film, actor, or genre without offering supporting evidence, factual citations, or scene breakdowns.
+  * *Example 1:* "Honestly overrated IMO."
+  * *Example 2:* "Unpopular opinion: the dialogue in Marvel films is fundamentally ruining screenwriting styles."
 
-* **`reaction`**: Expresses an immediate, subjective emotional impulse or brief surface-level response under 15 words without presenting a structured argument[cite: 14].
-  * *Example 1:* "WTF was that ending???"[cite: 14]
-  * *Example 2:* "Lol so true."[cite: 14]
+* **`reaction`**: Expresses an immediate, subjective emotional impulse or brief surface-level response under 15 words without presenting a structured argument.
+  * *Example 1:* "WTF was that ending???"
+  * *Example 2:* "Lol so true."
 
-* **`prompt`**: Solicits opinions, recommendations, or information from the community using an explicit question mark or open-ended inquiry format[cite: 14].
-  * *Example 1:* "Which actor had the best 3-year run in history?"[cite: 14]
-  * *Example 2:* "Where can I stream the remastered version?"[cite: 14]
+* **`prompt`**: Solicits opinions, recommendations, or information from the community using an explicit question mark or open-ended inquiry format.
+  * *Example 1:* "Which actor had the best 3-year run in history?"
+  * *Example 2:* "Where can I stream the remastered version?"
 
 ### Decision Boundary Rule
 
-* **Hardest Boundary:** Posts structured as a question that also express a strong personal opinion (e.g., *"Why does nobody talk about Denis Villeneuve's pacing? The second act drags completely."*)[cite: 14].
-* **Rule:** If a post contains a question structure but primarily functions to express a confident personal stance without citing checkable facts, label it as **`hot_take`**[cite: 14]. Reserve **`prompt`** strictly for posts whose primary intent is seeking outside information, recommendations, or community answers[cite: 14].
-
-**Example 1:**
->
-
-**Example 2:**
->
-
+* **Hardest Boundary:** Posts structured as a question that also express a strong personal opinion (e.g., *"Why does nobody talk about Denis Villeneuve's pacing? The second act drags completely."*).
+* **Rule:** If a post contains a question structure but primarily functions to express a confident personal stance without citing checkable facts, label it as **`hot_take`**. Reserve **`prompt`** strictly for posts whose primary intent is seeking outside information, recommendations, or community answers.
 ### `label_two`
 
 **Definition:**
