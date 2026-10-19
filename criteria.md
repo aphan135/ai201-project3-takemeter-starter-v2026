@@ -51,63 +51,60 @@ whether you hit them:
 
 ---
 
-## 1.
+## 1. Overall accuracy is at least 0.70 on the held-out test split, in all three seeds
 
-<!-- Your criterion. It must name a number. -->
-
-
-
-**Why this target:**
-
-
-
----
-
-## 2.
-
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** With four labels, a random guesser gets about 25%. A model
+that always says `analysis` would get about 45%, because that is roughly how
+often it showed up in my 40-post reading log. So 0.70 has to clear a real
+floor, not only chance. My test split is only about 30 posts, so each post is
+worth about 3 points. I set the target low enough that one unlucky seed with
+two extra misses doesn't sink it, but high enough that I'd actually trust the
+tool to sort a feed.
 
 ---
 
-## 3.
+## 2. Every label has an F1 of at least 0.50 in every seed, and `analysis` and `reaction` each reach at least 0.65
 
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
-
----
-
-## 4.
-
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** `analysis` and `reaction` have something you can point at.
+`analysis` has a checkable number, quote or timecode. `reaction` is under 15
+words and full of things like "lol", "WTF" and "???". So I expect them to do
+better. `hot_take` overlaps both `prompt` (a question that's really an opinion,
+like post 6) and `reaction` (short opinions like "Movie was mid tbh"). `prompt`
+looks like my smallest label, with about 6 of 40 posts in the log. That's why
+those two only get the looser 0.50 floor. Anything under 0.50 would mean the
+model mostly can't find that label.
 
 ---
 
-## 5.
+## 3. No label is more than 45% of `labels.csv`, and no label is under 15% (at least 30 of 200 posts)
 
-<!-- Your criterion. -->
+**Why this target:** The brief's cap is 70%, but in my reading log `analysis`
+was already about 45% (18 of 40) without me trying. If I let it grow past that,
+the model can score well by leaning on `analysis`. At the other end, 30
+examples puts only about 5 of a label in the test split. With fewer than that,
+a single post moves its F1 by 0.15 or more, so the per-label score in
+criterion 2 would just be noise.
 
+---
 
+## 4. I agree with the staff labels on at least 21 of the 30 staff posts (70%)
 
-**Why this target:**
+**Why this target:** I'm labelling those 30 under the staff taxonomy, not my
+own, and some were picked to be ambiguous on purpose. So I don't expect 90%.
+But if I can't stick to a written rule on 21 of 30, I probably wasn't
+consistent across my own 200 either, especially on the `hot_take`/`prompt`
+question rule. A model can't learn a boundary I drew two different ways.
 
+---
 
+## 5. Accuracy on the model's most-confident third is at least 0.20 higher than on its least-confident third, in all three seeds
+
+**Why this target:** Short `reaction` posts and stat-heavy `analysis` posts
+should be easy calls that the model is sure of and gets right. Questions with
+an opinion attached should be the unsure ones it misses. With about 30 test
+posts, each third is about 10 posts, so 0.20 is two posts' difference. A
+smaller gap could just be one lucky post. If the two thirds score about the
+same, then the model's confidence tells me nothing about when to trust it.
 
 ---
 

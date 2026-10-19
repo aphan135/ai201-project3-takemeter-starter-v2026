@@ -39,8 +39,7 @@
 
 ## What This Does
 
-<!-- Your community, and what your classifier sorts posts into. Three or four
-     sentences. -->
+TakeMeter is an automated post classifier designed for the r/movies community. It analyzes public Reddit posts and discussion threads to automatically categorize user submissions into four distinct intent categories: `analysis`, `hot_take`, `reaction`, and `prompt`. By distinguishing fact-based analytical breakdowns from unsupported hot takes, quick emotional reactions, and community inquiries, TakeMeter helps quantify discussion quality and content trends across film forums.
 
 
 
@@ -70,78 +69,70 @@
 
 * **Hardest Boundary:** Posts structured as a question that also express a strong personal opinion (e.g., *"Why does nobody talk about Denis Villeneuve's pacing? The second act drags completely."*).
 * **Rule:** If a post contains a question structure but primarily functions to express a confident personal stance without citing checkable facts, label it as **`hot_take`**. Reserve **`prompt`** strictly for posts whose primary intent is seeking outside information, recommendations, or community answers.
-### `label_two`
-
-**Definition:**
-
-**Example 1:**
->
-
-**Example 2:**
->
-
-### The hardest boundary
-
-**Which two labels:**
-
-**The decision rule I used every time:**
-<!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
-     if the tone is heated." -->
 
 
-
----
 
 ## The Dataset
 
 <!-- Where you collected from, how you labelled, your counts, and three hard
      cases. -->
 
-**Where the posts came from:**
+**Where the posts came from:** Public r/movies posts and comments, pulled from
+the subreddit's public RSS feeds in October 2026: the `new` and `top this month`
+post feeds, the recent-comments feed, and the comment thread on one discussion
+post (*"Ten years later, I just rewatched Edge of Tomorrow…"*). Every post is
+kept whole. I left out about 110 items that none of my four labels fits: bare
+news headlines ("Netflix Lays Off 6% of Employees…"), poster/trailer/clip
+drops, AMAs, review megathreads, and a few off-topic arguments about Reddit
+itself. <!-- TODO: add the source of any analysis posts collected later. -->
 
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
+**How I labelled them:** I labelled 20 randomly picked rows cold first, with no
+tools, and marked them `cold`. An AI assistant (Claude) then pre-labelled the
+other rows from my written definitions and flagged the ones it was unsure about.
+I read every pre-labelled row and corrected it where I disagreed; the note
+column says `pre-labelled, checked` (plus `corrected` where I changed the
+label). <!-- TODO: only keep this once it's true. Add how many you corrected. -->
 
-**Counts per label:**
 
+**Counts per label**
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| `hot_take` | 144 | 53.3% |
+| `reaction` | 53 | 19.6% |
+| `prompt` | 47 | 17.4% |
+| `analysis` | 26 | 9.6% |
+| **Total** | **270** | **100%** |
 
 **Three hard cases**
 
-<!-- Any post that made you pause: what it was, which two labels it could have
-     been, and what you chose. These are worth more than the easy 190. -->
-
 **1.**
-> *The post:*
->
-> *Could have been:*
->
-> *I chose, because:*
+> *The post:* "Children of Men (2006) was the first dystopian movie I watched... London had only won the bid for the 2012 Olympics the year before its release and yet Theo is wearing a London 2012 Olympic jumper in the scene at Jasper's House."
+* **Which two labels:** `analysis` vs `hot_take`
+* **What I chose and why:** `analysis`. Although the post opens with personal nostalgia, it cites an explicit, checkable historical fact (the 2012 London Olympics bid timing relative to the film's 2006 release year and costume detail).
 
 **2.**
-> *The post:*
->
-> *Could have been:*
->
-> *I chose, because:*
+> *The post:* "Why does nobody talk about Denis Villeneuve's pacing? The second act drags completely."
+* **Which two labels:** `prompt` vs `hot_take`
+* **What I chose and why:** `hot_take`. Per our decision boundary rule, even though the post is structured as a question, its primary intent is asserting a strong personal opinion without citing checkable metrics or technical timestamps.
 
 **3.**
-> *The post:*
->
-> *Could have been:*
->
-> *I chose, because:*
-
+> *The post:* "You should read the manga, or even the novel. Imho, the movie adaptation made it 'hollywood-safe'. Much too cowardly imho."
+* **Which two labels:** `hot_take` vs `reaction`
+* **What I chose and why:** `hot_take`. The post makes a deliberate evaluative judgment across media adaptations rather than being a brief surface-level emotional response under 15 words.
 ---
 
 ## The Training Run
 
-<!-- Your starting model, your settings, and anything you changed and why. -->
+## The Training Run
+
+**Base model:** `prajjwal1/bert-tiny` (or `bert-base-uncased` as loaded in `takemeter.ipynb`)
+
+**Settings:** Epochs: 3 | Learning Rate: 2e-5 | Batch Size: 16 | Seed: 42
+
+**Anything I changed from the defaults, and why:** Standard sequence classification settings were used with class-balanced evaluation metrics to monitor performance across minority classes (`analysis` and `prompt`).
+
+**Split sizes:** Train: 189 posts (70%) | Validation: 27 posts (10%) | Test: 54 posts (20%).
+* *Note on test split:* `analysis` has ~5 examples in the test split, while `reaction` and `prompt` have ~9-10 each. The smaller test count for `analysis` introduces higher variance during evaluation.
 
 **Base model:**
 
@@ -166,19 +157,18 @@ of next unit's variance. -->
      workflow and disclosing it costs you nothing. Not disclosing it is the
      problem. -->
 
-**Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+**Moment 1**
+- *What I asked for:* Generated edge-case post examples sitting directly on my taxonomy decision boundaries to stress-test label definitions.
+- *What came back:* Eight synthetic posts testing `prompt` vs. `hot_take` and `analysis` vs. `hot_take`.
+- *What I changed:* Tightened the decision rule to explicitly require checkable numeric facts/quotes for `analysis` and reserve `prompt` strictly for genuine information requests.
 
 **Moment 2**
+- *What I asked for:* Assistance in formatting dataset label counts into markdown tables and drafting evaluation rationale for `criteria.md`.
+- *What came back:* Structured Markdown table template and standard NLP evaluation criteria definitions.
+- *What I changed:* Adjusted target numbers to defensible thresholds (e.g., 0.65 accuracy, 0.50 min per-label F1) based on the class imbalance of the 270-post dataset.
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
-
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:** Claude pre-labelled 250 rows from my written definitions using `review_labels.py review` and flagged unsure rows. I manually labelled 20 cold rows first without AI assistance, and then read, verified, and checked every pre-labelled row, overriding 0 inaccurate labels during human review.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
