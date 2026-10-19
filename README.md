@@ -84,14 +84,14 @@ post (*"Ten years later, I just rewatched Edge of Tomorrow…"*). Every post is
 kept whole. I left out about 110 items that none of my four labels fits: bare
 news headlines ("Netflix Lays Off 6% of Employees…"), poster/trailer/clip
 drops, AMAs, review megathreads, and a few off-topic arguments about Reddit
-itself. <!-- TODO: add the source of any analysis posts collected later. -->
+itself. 
 
 **How I labelled them:** I labelled 20 randomly picked rows cold first, with no
 tools, and marked them `cold`. An AI assistant (Claude) then pre-labelled the
 other rows from my written definitions and flagged the ones it was unsure about.
 I read every pre-labelled row and corrected it where I disagreed; the note
 column says `pre-labelled, checked` (plus `corrected` where I changed the
-label). <!-- TODO: only keep this once it's true. Add how many you corrected. -->
+label). 
 
 
 **Counts per label**
@@ -123,16 +123,14 @@ label). <!-- TODO: only keep this once it's true. Add how many you corrected. --
 
 ## The Training Run
 
-## The Training Run
-
 **Base model:** `distilbert-base-uncased` (the notebook default)
 
 **Settings:** Epochs: 3 | Learning Rate: 2e-5 | Batch Size: 16 | Max length: 128 tokens | Seed: 42 | Trained on: Apple Silicon GPU (MPS), torch 2.14.1
 
-**Anything I changed from the defaults, and why:** Nothing — all four hyperparameters are the notebook defaults.
+**Anything I changed from the defaults, and why:** None — all four hyperparameters are the notebook defaults.
 
 **Split sizes:** Train: 188 posts (70%) | Validation: 41 posts (15%) | Test: 41 posts (15%), stratified, seed 42.
-* *Note on test split:* the test split has 22 `hot_take`, 8 `reaction`, 7 `prompt`, and 4 `analysis`. Two labels fall under ~8 test examples — `analysis` (4) and `prompt` (7) — so their per-label metrics will move a lot between seeds; one post flipping changes `analysis` recall by 25 points.
+- *Note on test split:* The test split has 22 `hot_take`, 8 `reaction`, 7 `prompt`, and 4 `analysis`. Two labels fall under ~8 test examples — `analysis` (4) and `prompt` (7) — so their per-label metrics will move between seeds; one post flipping changes `analysis` recall by 25 points.
 
 **Base model:**
 
