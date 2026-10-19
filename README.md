@@ -125,14 +125,14 @@ label). <!-- TODO: only keep this once it's true. Add how many you corrected. --
 
 ## The Training Run
 
-**Base model:** `prajjwal1/bert-tiny` (or `bert-base-uncased` as loaded in `takemeter.ipynb`)
+**Base model:** `distilbert-base-uncased` (the notebook default)
 
-**Settings:** Epochs: 3 | Learning Rate: 2e-5 | Batch Size: 16 | Seed: 42
+**Settings:** Epochs: 3 | Learning Rate: 2e-5 | Batch Size: 16 | Max length: 128 tokens | Seed: 42 | Trained on: Apple Silicon GPU (MPS), torch 2.14.1
 
-**Anything I changed from the defaults, and why:** Standard sequence classification settings were used with class-balanced evaluation metrics to monitor performance across minority classes (`analysis` and `prompt`).
+**Anything I changed from the defaults, and why:** Nothing — all four hyperparameters are the notebook defaults.
 
-**Split sizes:** Train: 189 posts (70%) | Validation: 27 posts (10%) | Test: 54 posts (20%).
-* *Note on test split:* `analysis` has ~5 examples in the test split, while `reaction` and `prompt` have ~9-10 each. The smaller test count for `analysis` introduces higher variance during evaluation.
+**Split sizes:** Train: 188 posts (70%) | Validation: 41 posts (15%) | Test: 41 posts (15%), stratified, seed 42.
+* *Note on test split:* the test split has 22 `hot_take`, 8 `reaction`, 7 `prompt`, and 4 `analysis`. Two labels fall under ~8 test examples — `analysis` (4) and `prompt` (7) — so their per-label metrics will move a lot between seeds; one post flipping changes `analysis` recall by 25 points.
 
 **Base model:**
 
